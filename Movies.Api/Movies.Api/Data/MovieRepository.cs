@@ -12,9 +12,10 @@ public class MovieRepository
         _MoviesContext = moviesContext;
     }
 
-    public IList<Movie> ListMovies()
+    public IList<Movie> ListMovies(string? title)
     {
-        return _MoviesContext.Movies.Include(m => m.Category).ToList();
+        var lowerCaseTitle = (title ?? "").ToLower();
+        return _MoviesContext.Movies.Where(m => m.Title.ToLower().StartsWith(lowerCaseTitle)).Include(m => m.Category).ToList();
     }
 
     public Movie? GetMovieById(int id)

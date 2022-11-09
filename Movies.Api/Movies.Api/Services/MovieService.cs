@@ -13,11 +13,11 @@ namespace Movies.Api.Services
             _movieRepository = movieRepository;
         }
 
-        public MovieListDto ListMovies()
+        public MovieListDto ListMovies(string? title)
         {
             return new MovieListDto
             {
-                Movies = _movieRepository.ListMovies().Select(m => new MovieDto
+                Movies = _movieRepository.ListMovies(title).Select(m => new MovieDto
                 {
                     Id = m.Id,
                     Title = m.Title,

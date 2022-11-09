@@ -18,9 +18,9 @@ namespace Movies.Api.Controllers
         }
 
         [HttpGet]
-        public MovieListDto Get()
+        public MovieListDto Get(string? title)
         {
-            return _movieService.ListMovies();
+            return _movieService.ListMovies(title);
         }
 
         [HttpGet("{id}")]

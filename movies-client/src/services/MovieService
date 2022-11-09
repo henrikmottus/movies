@@ -1,8 +1,9 @@
 import http from "../helpers/http.js";
 
 class MovieService {
-  list() {
-    return http.get("/Movies/");
+  list(query) {
+    const url = query ? `/Movies?title=${query}` : "/Movies";
+    return http.get(url);
   }
 
   getById(id) {

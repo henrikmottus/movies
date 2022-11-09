@@ -1,19 +1,25 @@
 <script>
 import MovieService from "../services/MovieService";
+import { ref } from "vue";
 export default {
   name: "movie-list",
   data() {
     return {
       movies: [],
+      input: ref(""),
     };
   },
   created() {
     this.listMovies();
   },
-
+  watch: {
+    input: function (val) {
+      this.listMovies(val);
+    },
+  },
   methods: {
-    listMovies() {
-      MovieService.list()
+    listMovies(query) {
+      MovieService.list(query)
         .then((response) => {
           this.movies = response.data.movies;
         })
@@ -26,6 +32,10 @@ export default {
 </script>
 
 <template>
+  <input name="search" type="text" v-model="input" placeholder="Search..." />
+  <div v-if="input && !movies.length">
+    <p>No results found!</p>
+  </div>
   <ul class="grid-x grid-margin-x">
     <li
       v-for="movie in movies"
