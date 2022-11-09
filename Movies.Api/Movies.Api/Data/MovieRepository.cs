@@ -1,4 +1,5 @@
 ﻿using Movies.Api.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Movies.Api.Data;
 
@@ -13,7 +14,7 @@ public class MovieRepository
 
     public IList<Movie> ListMovies()
     {
-        return _MoviesContext.Movies.ToList();
+        return _MoviesContext.Movies.Include(m => m.Category).ToList();
     }
 
     public Movie? GetMovieById(int id)

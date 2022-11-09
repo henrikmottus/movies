@@ -1,4 +1,5 @@
 ﻿using Movies.Api.Data;
+using Movies.Api.Dtos;
 using Movies.Api.Entities;
 
 namespace Movies.Api.Services
@@ -12,17 +13,37 @@ namespace Movies.Api.Services
             _movieRepository = movieRepository;
         }
 
-        public MovieList ListMovies()
+        public MovieListDto ListMovies()
         {
-            return new MovieList
+            return new MovieListDto
             {
-                Movies = _movieRepository.ListMovies(),
+                Movies = _movieRepository.ListMovies().Select(m => new MovieDto
+                {
+                    Id = m.Id,
+                    Title = m.Title,
+                    Year = m.Year,
+                    Rating = m.Rating,
+                    CategoryName = m.Category?.Name ?? "",
+                }).ToList(),
             };
         }
 
-        public Movie? GetMovieById(int id)
+        public MovieDto? GetMovieById(int id)
         {
-            return _movieRepository.GetMovieById(id);
+            var movie = _movieRepository.GetMovieById(id);
+            if (movie is null)
+            {
+                return null;
+            }
+
+            return new MovieDto
+            {
+                Id = movie.Id,
+                Title = movie.Title,
+                Year = movie.Year,
+                Rating = movie.Rating,
+                Description = movie.Description,
+            };
         }
     }
 }

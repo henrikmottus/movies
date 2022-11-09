@@ -18,6 +18,5 @@ public class MoviesContext : DbContext
     {
         modelBuilder.Entity<Movie>().HasKey("Id");
         modelBuilder.Entity<Category>().HasKey("Id");
-        modelBuilder.Ignore<MovieList>();
     }
 }

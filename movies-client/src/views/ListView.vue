@@ -37,7 +37,7 @@ export default {
         class="card-divider"
         >{{ movie.title }}</RouterLink
       >
-      <p class="card-section">Category: {{ movie.category || "-" }}</p>
+      <p class="card-section">Category: {{ movie.categoryName || "-" }}</p>
       <p class="card-section">Release year: {{ movie.year }}</p>
       <p class="card-section">Rating: {{ movie.rating }}</p>
     </li>
