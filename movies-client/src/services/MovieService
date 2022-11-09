@@ -1,8 +1,20 @@
 import http from "../helpers/http.js";
 
 class MovieService {
-  list(query) {
-    const url = query ? `/Movies?title=${query}` : "/Movies";
+  list(query, categories) {
+    const categoryString = (categories || []).join(";");
+    let url = "/Movies";
+    if (query || categoryString) {
+      url += "?";
+      if (query) {
+        url += `title=${query}&`;
+      }
+
+      if (categoryString) {
+        url += `categories=${categoryString}`;
+      }
+    }
+
     return http.get(url);
   }
 

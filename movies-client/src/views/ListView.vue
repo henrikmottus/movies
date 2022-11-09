@@ -7,19 +7,23 @@ export default {
     return {
       movies: [],
       input: ref(""),
+      categories: [],
     };
   },
   created() {
     this.listMovies();
   },
   watch: {
-    input: function (val) {
-      this.listMovies(val);
+    input(val) {
+      this.listMovies(val, this.categories);
+    },
+    categories(val) {
+      this.listMovies(this.input, val);
     },
   },
   methods: {
-    listMovies(query) {
-      MovieService.list(query)
+    listMovies(query, categories) {
+      MovieService.list(query, categories)
         .then((response) => {
           this.movies = response.data.movies;
         })
@@ -32,7 +36,23 @@ export default {
 </script>
 
 <template>
-  <input name="search" type="text" v-model="input" placeholder="Search..." />
+  <div>
+    <input name="search" type="text" v-model="input" placeholder="Search..." />
+    <label
+      >Filter by category (use ctrl to select and deselect multiple
+      categories)</label
+    >
+    <select multiple v-model="categories">
+      <option value="History">History</option>
+      <option value="Fantasy">Fantasy</option>
+      <option value="Science Fiction">Science Fiction</option>
+      <option value="Comedy">Comedy</option>
+      <option value="Horror">Horror</option>
+      <option value="Drama">Drama</option>
+      <option value="Action">Action</option>
+    </select>
+  </div>
+
   <div v-if="input && !movies.length">
     <p>No results found!</p>
   </div>

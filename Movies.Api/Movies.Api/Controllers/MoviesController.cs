@@ -18,9 +18,10 @@ namespace Movies.Api.Controllers
         }
 
         [HttpGet]
-        public MovieListDto Get(string? title)
+        public MovieListDto Get(string? title, string? categories)
         {
-            return _movieService.ListMovies(title);
+            var categoryArray = (categories ?? "").Split(';').Where(c => !String.IsNullOrWhiteSpace(c)).ToArray();
+            return _movieService.ListMovies(title, categoryArray);
         }
 
         [HttpGet("{id}")]
