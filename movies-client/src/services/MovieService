@@ -1,0 +1,13 @@
+import http from "../helpers/http.js";
+
+class MovieService {
+  list() {
+    return http.get("/Movies/");
+  }
+
+  getById(id) {
+    return http.get(`/Movies/${id}`);
+  }
+}
+
+export default new MovieService();
