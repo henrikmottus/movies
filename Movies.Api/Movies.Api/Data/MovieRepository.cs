@@ -1,9 +1,10 @@
 ﻿using Movies.Api.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Movies.Api.Data;
 
-public class MovieRepository
+public class MovieRepository : IMovieRepository
 {
     private readonly MoviesContext _MoviesContext;
 
@@ -12,14 +13,10 @@ public class MovieRepository
         _MoviesContext = moviesContext;
     }
 
-    public IList<Movie> ListMovies(string? title, string[] categories)
+    public IEnumerable<Movie> ListMovies()
     {
-        var lowerCaseTitle = (title ?? "").ToLower();
         return _MoviesContext.Movies
-            .Where(m => 
-                m.Title.ToLower().StartsWith(lowerCaseTitle)
-                && categories.Length == 0 || (m.Category != null && categories.Contains(m.Category.Name)))
-            .Include(m => m.Category).ToList();
+            .Include(m => m.Category);
     }
 
     public Movie? GetMovieById(int id)
