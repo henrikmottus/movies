@@ -8,6 +8,8 @@ export default {
       movies: [],
       input: ref(""),
       categories: [],
+      error: "",
+      isLoading: false,
     };
   },
   created() {
@@ -23,12 +25,17 @@ export default {
   },
   methods: {
     listMovies(query, categories) {
+      this.isLoading = true;
       MovieService.list(query, categories)
         .then((response) => {
           this.movies = response.data.movies;
+          this.error = "";
         })
         .catch((e) => {
-          console.log(e);
+          this.error = e;
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
     },
   },
@@ -53,7 +60,16 @@ export default {
     </select>
   </div>
 
-  <div v-if="input && !movies.length">
+  <div v-if="isLoading">
+    <p>Loading...</p>
+  </div>
+  <div v-else-if="error">
+    <p>Couldn't access the API!</p>
+    <button @click="listMovies(input, categories)" class="button">
+      try again!
+    </button>
+  </div>
+  <div v-else-if="input && !movies.length">
     <p>No results found!</p>
   </div>
   <ul class="grid-x grid-margin-x">

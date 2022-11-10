@@ -2,6 +2,16 @@ import http from "../helpers/http.js";
 
 class MovieService {
   list(query, categories) {
+    const url = this.createUrl(query, categories);
+
+    return http.get(url);
+  }
+
+  getById(id) {
+    return http.get(`/Movies/${id}`);
+  }
+
+  createUrl(query, categories) {
     const categoryString = (categories || []).join(";");
     let url = "/Movies";
     if (query || categoryString) {
@@ -14,12 +24,7 @@ class MovieService {
         url += `categories=${categoryString}`;
       }
     }
-
-    return http.get(url);
-  }
-
-  getById(id) {
-    return http.get(`/Movies/${id}`);
+    return url;
   }
 }
 

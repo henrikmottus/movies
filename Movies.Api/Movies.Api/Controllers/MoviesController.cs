@@ -10,9 +10,9 @@ namespace Movies.Api.Controllers
     [ApiController]
     public class MoviesController : ControllerBase
     {
-        private readonly MovieService _movieService;
+        private readonly IMovieService _movieService;
 
-        public MoviesController(MovieService movieService)
+        public MoviesController(IMovieService movieService)
         {
             _movieService = movieService;
         }
